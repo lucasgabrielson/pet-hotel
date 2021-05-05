@@ -11,7 +11,7 @@ app.config["DEBUG"] = True
 connection = psycopg2.connect(
     host="127.0.0.1",
     port="5432",
-    database="python_books"
+    database="pet_cemetery"
 )
 
 @app.route('/time')
