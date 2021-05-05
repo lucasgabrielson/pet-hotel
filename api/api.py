@@ -18,6 +18,11 @@ connection = psycopg2.connect(
 def get_current_time():
     return {'time': time.time()}
 
+
+@app.route('/pet', methods=['GET'])
+def get_pets():
+    print('this is the request:', )
+    pet = request.
 # @app.route('/', methods=['GET'])
 # def home():
 #     return "<h1>Hello World!</h1><p>From Python and Flask!</p>"
