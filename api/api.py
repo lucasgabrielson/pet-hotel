@@ -1,4 +1,3 @@
-import time
 import flask
 import psycopg2
 from flask import request, jsonify
@@ -14,15 +13,12 @@ connection = psycopg2.connect(
     database="pet_cemetery"
 )
 
-@app.route('/time')
-def get_current_time():
-    return {'time': time.time()}
 
 
 @app.route('/pet', methods=['GET'])
 def get_pets():
     print('this is the request:', )
-    pet = request.
+    pet = request.json
 # @app.route('/', methods=['GET'])
 # def home():
 #     return "<h1>Hello World!</h1><p>From Python and Flask!</p>"
@@ -78,6 +74,3 @@ def get_pets():
 #     #     print("Id = ", row[0], )
 #     #     print("Title = ", row[1])
 #     #     print("Author  = ", row[2], "\n")
-
-
-app.run()
