@@ -38,7 +38,7 @@ const columns = [
       };
       return <Button onClick={onClick}>Click</Button>;
     },
-    width: 250
+    width: 260
   }
 ];
 
