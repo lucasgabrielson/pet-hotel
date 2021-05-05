@@ -15,13 +15,29 @@ connection = psycopg2.connect(
 
 
 
-@app.route('/pet', methods=['GET'])
+@app.route("/pet", methods=["POST"])
 def get_pets():
-    print('this is the request:', )
+    print("this is the request:", request.json)
+    print("as a form", request.form)
     pet = request.json
-# @app.route('/', methods=['GET'])
-# def home():
-#     return "<h1>Hello World!</h1><p>From Python and Flask!</p>"
+    try:
+        cursor = connection.cursor(cursor_factory=RealDictCursor)
+        print(pet)
+        insertQuery = "INSERT INTO pets (name, breed, color, checkInStatus) VALUES (%s, %s, %s, %s)"
+        cursor.execute(insertQuery, (pet["name"], pet["breed"], pet["color"], pet["checkInStatus"]))
+        connection.commit()
+        count = cursor.rowcount
+        print(count, "pet inserted")
+        return 201
+    except (Exception, psycopg2.Error) as error:
+        # there was a problem 
+        print("Failed to insert pet", error)
+        # respond with error
+        return 500
+    finally
+        if(cursor):
+            cursor.close()
+
 
 
 # @app.route('/api/books', methods=['POST'])
