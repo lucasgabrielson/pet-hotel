@@ -13,59 +13,63 @@ connection = psycopg2.connect(
     database="pet_cemetery"
 )
 
+# PETS ROUTES
+@app.route('/api/pets', methods=['GET'])
+def list_pets():
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
+    postgreSQL_select_Query = "SELECT * FROM pets"
+    cursor.execute(postgreSQL_select_Query)
+    pets = cursor.fetchall()
+    return pets
 
-# @app.route('/', methods=['GET'])
-# def home():
-#     return "<h1>Hello World!</h1><p>From Python and Flask!</p>"
+@app.route("/api/pets", methods=["POST"])
+def add_pet():
+    print("this is the request:", request.json)
+    print("as a form", request.form)
+    owner = request.json["owner"]
+    pet = request.json["pet"]
+    try:
+        cursor = connection.cursor(cursor_factory=RealDictCursor)
+        print(pet)
+        insertQuery = "INSERT INTO pets (owner_id, name, breed, color, checkin_status) VALUES (%s, %s, %s, %s, %s)"
+        cursor.execute(insertQuery, (owner["id"], pet["name"], pet["breed"], pet["color"], pet["checkInStatus"]))
+        connection.commit()
+        count = cursor.rowcount
+        print(count, "pet inserted")
+        return 201
+    except (Exception, psycopg2.Error) as error:
+        print("Failed to insert pet", error)
+        return 500
+    finally:
+        if(cursor):
+            cursor.close()
 
+# USERS ROUTES
+@app.route('/api/owners', methods=['GET'])
+def list_owners():
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
+    postgreSQL_select_Query = "SELECT owners.name, COUNT pets.name FROM owners JOIN pets on owners.id = pets.owner_id"
+    cursor.execute(postgreSQL_select_Query)
+    users = cursor.fetchall()
+    return users
 
-# @app.route('/api/books', methods=['POST'])
-# def create_book():
-#     print('request.json is a dict!', request.json)
-#     print('if you\'re using multipart/form data, use request.form instead!', request.form)
-#     title = request.json['title']
-#     author = request.json['author']
-#     try:
-#         # Avoid getting arrays of arrays!
-#         cursor = connection.cursor(cursor_factory=RealDictCursor)
-
-#         print(title, author)
-#         insertQuery = "INSERT INTO books (title, author) VALUES (%s, %s)"
-#         # if only only one param, still needs to be a tuple --> cursor.execute(insertQuery, (title,)) <-- comma matters!
-#         cursor.execute(insertQuery, (title, author))
-#         # really for sure commit the query
-#         connection.commit()
-#         count = cursor.rowcount
-#         print(count, "Book inserted")
-#         # respond nicely
-#         result = {'status': 'CREATED'}
-#         return jsonify(result), 201
-#     except (Exception, psycopg2.Error) as error:
-#         # there was a problem 
-#         print("Failed to insert book", error)
-#         # respond with error
-#         result = {'status': 'ERROR'}
-#         return jsonify(result), 500
-#     finally:
-#         # clean up our cursor
-#         if(cursor):
-#             cursor.close()
-
-
-# @app.route('/api/books', methods=['GET'])
-# def list_books():
-#     # Use RealDictCursor to convert DB records into Dict objects
-#     cursor = connection.cursor(cursor_factory=RealDictCursor)
-
-#     postgreSQL_select_Query = "SELECT * FROM books"
-#     # execute query
-#     cursor.execute(postgreSQL_select_Query)
-#     # Selecting rows from mobile table using cursor.fetchall
-#     books = cursor.fetchall()
-#     # respond, status 200 is added for us
-#     return jsonify(books)
-
-#     # for row in books:
-#     #     print("Id = ", row[0], )
-#     #     print("Title = ", row[1])
-#     #     print("Author  = ", row[2], "\n")
+@app.route("/api/owners", methods=["POST"])
+def add_owner():
+    print("this is the request:", request.json)
+    print("as a form", request.form)
+    owner = request.json["owner"]
+    try:
+        cursor = connection.cursor(cursor_factory=RealDictCursor)
+        print(user)
+        insertQuery = "INSERT INTO owners (name) VALUES (%s)"
+        cursor.execute(insertQuery, (owner["name"],))
+        connection.commit()
+        count = cursor.rowcount
+        print(count, "owner inserted")
+        return 201
+    except (Exception, psycopg2.Error) as error:
+        print("Failed to insert owner", error)
+        return 500
+    finally:
+        if(cursor):
+            cursor.close()
