@@ -29,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const columns = [
-  { field: 'firstName', headerName: 'First name', width: 250 },
-  { field: 'petNumber', headerName: 'Number of Pets', type:'number', width: 250 },
+  { field: 'name', headerName: 'First name', width: 250 },
+  { field: 'count', headerName: 'Number of Pets', type:'number', width: 250 },
   {
     field: "button",
     headerName: "Action",
@@ -46,10 +46,6 @@ const columns = [
 
 
 
-const rows = [
-  { id: 1, firstName: 'Jon', petNumber: '6' },
-  { id: 2, firstName: 'Jon', petNumber: '6' },
-];
 
 const Owners = () => {
 
@@ -79,9 +75,8 @@ const Owners = () => {
                 </Toolbar>
             </div>
             <div style={{ height: 400, width: '100%' }}>
-                <DataGrid rows={rows} columns={columns} pageSize={5}  />
+                {owners[0] !== undefined && <DataGrid rows={owners} columns={columns} pageSize={5}  />}
             </div>
-            {owners[0] !== undefined && JSON.stringify(owners)}
         </>
     )
 }
