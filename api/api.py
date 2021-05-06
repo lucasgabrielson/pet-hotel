@@ -60,7 +60,7 @@ def add_owner():
     owner = request.json["owner"]
     try:
         cursor = connection.cursor(cursor_factory=RealDictCursor)
-        print(user)
+        print(owner)
         insertQuery = "INSERT INTO owners (name) VALUES (%s)"
         cursor.execute(insertQuery, (owner["name"],))
         connection.commit()
