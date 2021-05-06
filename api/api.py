@@ -26,20 +26,18 @@ def list_pets():
 def add_pet():
     print("this is the request:", request.json)
     print("as a form", request.form)
-    owner = request.json["owner"]
-    pet = request.json["pet"]
+    owner = request.json["owner_id"]
     try:
         cursor = connection.cursor(cursor_factory=RealDictCursor)
-        print(pet)
-        insertQuery = "INSERT INTO pets (owner_id, name, breed, color, checkin_status) VALUES (%s, %s, %s, %s, %s)"
-        cursor.execute(insertQuery, (owner["id"], pet["name"], pet["color"], pet["breed"], pet["checkInStatus"]))
+        insertQuery = "INSERT INTO pets (owner_id, name, breed, color, checkin_status) VALUES (%s, %s, %s, %s, %s);"
+        cursor.execute(insertQuery, (owner, request.json["name"], request.json["color"], request.json["breed"], request.json["checkin_status"]))
         connection.commit()
         count = cursor.rowcount
         print(count, "pet inserted")
-        return 201
+        return "201"
     except (Exception, psycopg2.Error) as error:
         print("Failed to insert pet", error)
-        return 500
+        return "500"
     finally:
         if(cursor):
             cursor.close()
