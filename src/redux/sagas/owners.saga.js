@@ -21,11 +21,22 @@ function* addOwnersApi(action) {
     }
 }
 
+function* deleteOwnersApi(action) {
+    try {
+        console.log( 'in deleteOwnersApi');
+        const response = yield axios.delete( '/api/owners/', action.payload );
+        yield put({type: 'GET_OWNERS'})
+    } catch (error) {
+        console.log('Error deleting owner from database', error);
+    }
+}
+
 
 
 function* ownersApiSaga() {
     yield takeLatest('GET_OWNERS', ownersApi);
-    yield takeLatest('ADD_OWNER', addOwnersApi)
+    yield takeLatest('ADD_OWNER', addOwnersApi);
+    yield takeLatest('DELETE_OWNER', deleteOwnersApi);
 }
 
 export default ownersApiSaga;
