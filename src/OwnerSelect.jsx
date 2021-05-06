@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+import { useSelector } from 'react-redux';
+
+
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -18,7 +21,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function OwnerSelect() {
+  
+  const owners = useSelector( (store)  => {
+    return store.owners; 
+  }) 
+  
   const classes = useStyles();
   const [age, setAge] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -37,6 +46,7 @@ export default function OwnerSelect() {
 
   return (
     <div>
+      {JSON.stringify({owners})}
       <Button className={classes.button} onClick={handleOpen}>
       </Button>
       <FormControl className={classes.formControl}>
@@ -53,6 +63,11 @@ export default function OwnerSelect() {
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
+            {owners.map(owner => {
+            return (
+            <MenuItem value={owner.name}>{owner.name}</MenuItem>
+              )
+             })}
           <MenuItem value={10}>Ten</MenuItem>
           <MenuItem value={20}>Twenty</MenuItem>
           <MenuItem value={30}>Thirty</MenuItem>
