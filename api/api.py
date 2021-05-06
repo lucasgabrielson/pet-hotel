@@ -20,7 +20,7 @@ def list_pets():
     postgreSQL_select_Query = "SELECT * FROM pets"
     cursor.execute(postgreSQL_select_Query)
     pets = cursor.fetchall()
-    return pets
+    return jsonify(pets)
 
 @app.route("/api/pets", methods=["POST"])
 def add_pet():
