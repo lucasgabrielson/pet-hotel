@@ -48,29 +48,39 @@ def add_pet():
 @app.route('/api/owners', methods=['GET'])
 def list_owners():
     cursor = connection.cursor(cursor_factory=RealDictCursor)
-    postgreSQL_select_Query = "SELECT owners.name, owners.id, COUNT (pets.name) FROM owners JOIN pets ON owners.id = pets.owner_id GROUP BY owners.name, owners.id"
+    postgreSQL_select_Query = "SELECT owners.name, owners.id, COUNT (pets.name) FROM owners LEFT JOIN pets ON owners.id = pets.owner_id GROUP BY owners.name, owners.id"
     cursor.execute(postgreSQL_select_Query)
     users = cursor.fetchall()
     print(users)
     return jsonify(users)
 
-@app.route("/api/owners/", methods=["POST"])
-def add_owner():
-    print("this is the request:", request.json)
-    print("as a form", request.form)
-    owner = request.json["owner"]
+@app.route( '/api/owners/', methods=['POST'] )
+def create_owner():
+    print('request.json is a dict!', request.json)
+    print('if you\'re using multipart/form data, use request.form instead!', request.form)
+    print(request.json)
+    name = request.json['name']
     try:
+        # Avoid getting arrays of arrays!
         cursor = connection.cursor(cursor_factory=RealDictCursor)
-        print(owner)
-        insertQuery = "INSERT INTO owners (name) VALUES (%s)"
-        cursor.execute(insertQuery, (owner["name"],))
+        print( 'owner:', name )
+        insertQuery = "INSERT INTO owners ( name ) VALUES ( %s )"
+        # if only only one param, still needs to be a tuple --> cursor.execute(insertQuery, (title,)) <-- comma matters!
+        cursor.execute(insertQuery, ( name, ))
+        # really for sure commit the query
         connection.commit()
         count = cursor.rowcount
-        print(count, "owner inserted")
-        return 201
+        print(count, "Owner added")
+        # respond nicely
+        result = {'status': 'CREATED'}
+        return jsonify(result), 201
     except (Exception, psycopg2.Error) as error:
-        print("Failed to insert owner", error)
-        return 500
+        # there was a problem
+        print("Failed to add owner", error)
+        # respond with error
+        result = {'status': 'ERROR'}
+        return jsonify(result), 500
     finally:
+        # clean up our cursor
         if(cursor):
             cursor.close()
