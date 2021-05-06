@@ -32,12 +32,13 @@ const rows = [
 
 export default function PetAdd() {
   const classes = useStyles();
-  const dispatch = useDispatch
+  const dispatch = useDispatch();
     
 
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
   const [breed, setBreed] = useState('');
+  const [owner, setOwner] = useState('');
 
   const newName = (event) => {
     setName(event.target.value);
@@ -51,6 +52,11 @@ export default function PetAdd() {
     setBreed(event.target.value);
   }
 
+  const ownerSelection = (event) => {
+    setOwner(event.target.value);
+    console.log('owner:', owner);
+  }
+
 
   const submitPet = () => {
     console.log('in submitPet:', petToAdd );
@@ -59,7 +65,7 @@ export default function PetAdd() {
 
   //object to be sent to db on post 
   const petToAdd = {
-    owner: 'owner',
+    owner: owner,
     name,
     color,
     breed
@@ -73,7 +79,7 @@ export default function PetAdd() {
         <Input placeholder="Pet Name" onChange={newName} inputProps={{ 'aria-label': 'description' }} />
         <Input placeholder="Pet Color" onChange={newColor} inputProps={{ 'aria-label': 'description' }} />
         <Input placeholder="Pet Breed" onChange={newBreed} inputProps={{ 'aria-label': 'description' }} />
-        <OwnerSelect />
+        <OwnerSelect setOwner={setOwner} />
         <button onClick={submitPet}>Submit</button>
     </form>
             
