@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -19,10 +19,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
-}));
+  }));
 
 
-export default function OwnerSelect() {
+export default function OwnerSelect(props) {
+  const [currentOwner, SetCurrentOwner] = useState('')
   
   const owners = useSelector( (store)  => {
     return store.owners; 
@@ -33,7 +34,8 @@ export default function OwnerSelect() {
   const [open, setOpen] = React.useState(false);
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    props.setOwner(event.target.value);
+
   };
 
   const handleClose = () => {
@@ -46,7 +48,7 @@ export default function OwnerSelect() {
 
   return (
     <div>
-      {JSON.stringify({owners})}
+      {JSON.stringify(owners)}
       <Button className={classes.button} onClick={handleOpen}>
       </Button>
       <FormControl className={classes.formControl}>
@@ -68,9 +70,6 @@ export default function OwnerSelect() {
             <MenuItem value={owner.name}>{owner.name}</MenuItem>
               )
              })}
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
         </Select>
       </FormControl>
     </div>
