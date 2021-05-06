@@ -58,18 +58,18 @@ const Owners = () => {
     const classes = useStyles();
 
     const handleClick = () => {
-
+        dispatch({type: 'ADD_OWNER', payload: name})
     }
 
     const owners = useSelector( store => store.owners) 
 
-    const [search, setSearch] = useState('');
+    const [name, setName] = useState('');
     return (
         <>
             <div>
                 <Toolbar>
                     <div className ={classes.inputContainer}>
-                        <TextField onChange={e => setSearch(e)} />
+                        <TextField onChange={e => setName(e.target.value)} />
                         <AddCircleOutlineIcon onClick={() => handleClick()}/>
                     </div>
                 </Toolbar>

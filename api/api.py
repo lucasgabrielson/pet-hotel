@@ -54,7 +54,7 @@ def list_owners():
     print(users)
     return jsonify(users)
 
-@app.route("/api/owners", methods=["POST"])
+@app.route("/api/owners/", methods=["POST"])
 def add_owner():
     print("this is the request:", request.json)
     print("as a form", request.form)
