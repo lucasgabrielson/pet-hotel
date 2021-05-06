@@ -19,7 +19,7 @@ venv
 .env.test.local
 .env.production.local
 __pycache__
-.eslintcache
+.eslintcache 
 
 npm-debug.log*
 yarn-debug.log*

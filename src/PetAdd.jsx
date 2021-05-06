@@ -52,23 +52,19 @@ export default function PetAdd() {
     setBreed(event.target.value);
   }
 
-  const ownerSelection = (event) => {
-    setOwner(event.target.value);
-    console.log('owner:', owner);
-  }
-
-
   const submitPet = () => {
+    console.log('in submitPet:', owner )
     console.log('in submitPet:', petToAdd );
     dispatch({type: 'ADD_PET', payload: petToAdd })
   }
 
   //object to be sent to db on post 
   const petToAdd = {
-    owner: owner,
+    owner_id: owner,
     name,
     color,
-    breed
+    breed,
+    checkin_status: false,
   }
 
 
