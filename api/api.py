@@ -84,3 +84,36 @@ def create_owner():
         # clean up our cursor
         if(cursor):
             cursor.close()
+
+@app.route( '/api/owners/', methods=['DELETE'] )
+def delete_owner():
+    print('request.json is a dict!', request.json)
+    print('if you\'re using multipart/form data, use request.form instead!', request.form)
+    print(request.json)
+    name = request.json['name']
+    id = request.json['id']
+    try:
+        # Avoid getting arrays of arrays!
+        cursor = connection.cursor(cursor_factory=RealDictCursor)
+        print( 'owner:', name )
+        print( 'id:', id)
+        insertQuery = "DELETE FROM owners WHERE name = ( %s ) AND id = ( %s )"
+        # if only only one param, still needs to be a tuple --> cursor.execute(insertQuery, (title,)) <-- comma matters!
+        cursor.execute(insertQuery, ( name, id))
+        # really for sure commit the query
+        connection.commit()
+        count = cursor.rowcount
+        print(count, "Owner deleted")
+        # respond nicely
+        result = {'status': 'DELETED'}
+        return jsonify(result), 200
+    except (Exception, psycopg2.Error) as error:
+        # there was a problem
+        print("Failed to delete owner", error)
+        # respond with error
+        result = {'status': 'ERROR'}
+        return jsonify(result), 500
+    finally:
+        # clean up our cursor
+        if(cursor):
+            cursor.close()
