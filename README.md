@@ -10,6 +10,9 @@
 - [] Pet Check In Default To 'IN'
 - [] Check In a Pet 
 - [] Check Out a Pet
+
+### STRETCH GOALS
+
 - [] Edit owner information
 - [] Add Material Design
 - [] Colum Sorting
