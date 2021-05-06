@@ -49,7 +49,25 @@ def add_pet():
 def update_pets():
     print("in /api/pets PUT with request:", request.json)
     pet = request.json["pet"]
-    
+    if (pet["checkInStatus"] == true):
+        pet["checkInStatus"] = false
+    else:
+        pet["checkInStatus"] = true
+    try:
+        cursor = connection.cursor(cursor_factory=RealDictCursor)
+        print(pet)
+        insertQuery = "UPDATE pets SET checkin_status =" + pet["checkInStatus"] + "WHERE id = (%s)"
+        cursor.execute(insertQuery, (pet["id"],))
+        connection.commit()
+        count = cursor.rowcount
+        print(count, "pet updated")
+        return 201
+    except (Exception, psycopg2.Error) as error:
+        print("Failed to update pet", error)
+        return 500
+    finally:
+        if(cursor):
+            cursor.close()
 
 
 # OWNERS ROUTES
