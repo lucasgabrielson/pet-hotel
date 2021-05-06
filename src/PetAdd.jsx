@@ -9,7 +9,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Input from '@material-ui/core/Input';
 import OwnerSelect from './OwnerSelect';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const useStyles = makeStyles({
   table: {
@@ -31,6 +32,11 @@ const rows = [
 
 
 export default function PetAdd() {
+
+  const pets = useSelector( (store)  => {
+    return store.pets; 
+  }) 
+
   const classes = useStyles();
   const dispatch = useDispatch();
     
@@ -71,6 +77,7 @@ export default function PetAdd() {
   return (
       <>
     <h2>Pet Add</h2>
+    {JSON.stringify({pets})}
     <form className={classes.root} noValidate autoComplete="off">
         <Input placeholder="Pet Name" onChange={newName} inputProps={{ 'aria-label': 'description' }} />
         <Input placeholder="Pet Color" onChange={newColor} inputProps={{ 'aria-label': 'description' }} />

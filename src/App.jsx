@@ -10,7 +10,8 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-        dispatch({ type: 'GET_OWNERS'})
+        dispatch({ type: 'GET_OWNERS'});
+        dispatch({type: 'GET_PETS'});
     }, [])
 
   return (
