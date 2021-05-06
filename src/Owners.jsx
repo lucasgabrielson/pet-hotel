@@ -28,25 +28,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const columns = [
-  { field: 'name', headerName: 'First name', width: 250 },
-  { field: 'count', headerName: 'Number of Pets', type:'number', width: 250 },
-  {
-    field: "button",
-    headerName: "Action",
-    disableClickEventBubbling: true,
-    renderCell: (params) => {
-      const onClick = () => {
-      };
-      return <Button onClick={onClick}>Click</Button>;
-    },
-    width: 260
-  }
-];
-
-
-
-
 const Owners = () => {
 
     const dispatch = useDispatch();
@@ -64,6 +45,25 @@ const Owners = () => {
     const owners = useSelector( store => store.owners) 
 
     const [name, setName] = useState('');
+
+    const columns = [
+        { field: 'name', headerName: 'First name', width: 250 },
+        { field: 'count', headerName: 'Number of Pets', type:'number', width: 250 },
+        {
+            field: "button",
+            headerName: "Action",
+            disableClickEventBubbling: true,
+            renderCell: (params) => {
+            const onClick = () => {
+                console.log('delete', params.row);
+                dispatch({type: 'DELETE_OWNER', payload: params.row})
+            };
+            return <Button onClick={onClick}>Delete</Button>;
+            },
+            width: 260
+        }
+    ];
+
     return (
         <>
             <div>
@@ -75,7 +75,7 @@ const Owners = () => {
                 </Toolbar>
             </div>
             <div style={{ height: 400, width: '100%' }}>
-                {owners[0] !== undefined && <DataGrid rows={owners} columns={columns} pageSize={5}  />}
+                <DataGrid rows={owners} columns={columns} pageSize={5}  />
             </div>
         </>
     )
