@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Input from '@material-ui/core/Input';
 import OwnerSelect from './OwnerSelect';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles({
   table: {
@@ -21,24 +22,59 @@ function createData(name, calories, fat, carbs, protein) {
 }
 
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+  createData('Frozen yoghurt', 200, 6.0, 24, 4.0),
   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
   createData('Eclair', 262, 16.0, 24, 6.0),
   createData('Cupcake', 305, 3.7, 67, 4.3),
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
+
 export default function PetAdd() {
   const classes = useStyles();
+  const dispatch = useDispatch
+    
+
+  const [name, setName] = useState('');
+  const [color, setColor] = useState('');
+  const [breed, setBreed] = useState('');
+
+  const newName = (event) => {
+    setName(event.target.value);
+  }
+
+  const newColor = (event) => {
+    setColor(event.target.value);
+  }
+
+  const newBreed = (event) => {
+    setBreed(event.target.value);
+  }
+
+
+  const submitPet = () => {
+    console.log('in submitPet:', petToAdd );
+    dispatch({type: 'ADD_PET', payload: petToAdd })
+  }
+
+  //object to be sent to db on post 
+  const petToAdd = {
+    owner: 'owner',
+    name,
+    color,
+    breed
+  }
+
 
   return (
       <>
     <h2>Pet Add</h2>
     <form className={classes.root} noValidate autoComplete="off">
-        <Input placeholder="Pet Name" inputProps={{ 'aria-label': 'description' }} />
-        <Input placeholder="Pet Color" inputProps={{ 'aria-label': 'description' }} />
-        <Input placeholder="Pet Breed" inputProps={{ 'aria-label': 'description' }} />
+        <Input placeholder="Pet Name" onChange={newName} inputProps={{ 'aria-label': 'description' }} />
+        <Input placeholder="Pet Color" onChange={newColor} inputProps={{ 'aria-label': 'description' }} />
+        <Input placeholder="Pet Breed" onChange={newBreed} inputProps={{ 'aria-label': 'description' }} />
         <OwnerSelect />
+        <button onClick={submitPet}>Submit</button>
     </form>
             
     <TableContainer component={Paper}>
