@@ -4,8 +4,10 @@ import axios from 'axios';
 function* ownersApi(action) {
     try {
         console.log( 'in ownersApi');
+        const response = yield axios.get('/api/owners');
+        yield put({type: 'SET_OWNERS', payload: response.data})
     } catch (error) {
-        console.log('Error getting apis from database', error);
+        console.log('Error getting owners from database', error);
     }
 }
 

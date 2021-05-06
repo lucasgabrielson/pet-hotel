@@ -48,10 +48,11 @@ def add_pet():
 @app.route('/api/owners', methods=['GET'])
 def list_owners():
     cursor = connection.cursor(cursor_factory=RealDictCursor)
-    postgreSQL_select_Query = "SELECT owners.name, COUNT pets.name FROM owners JOIN pets on owners.id = pets.owner_id"
+    postgreSQL_select_Query = "SELECT owners.name, COUNT (pets.name) FROM owners JOIN pets ON owners.id = pets.owner_id GROUP BY owners.name"
     cursor.execute(postgreSQL_select_Query)
     users = cursor.fetchall()
-    return users
+    print(users)
+    return jsonify(users)
 
 @app.route("/api/owners", methods=["POST"])
 def add_owner():
