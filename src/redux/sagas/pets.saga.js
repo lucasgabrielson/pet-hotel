@@ -4,9 +4,9 @@ import axios from 'axios';
 function* addPetApi(action) {
     try {
         console.log( 'in addPetApi');
-        const response = yield axios.post(`/api/pets/?${action.payload}`);
+        const response = yield axios.post('/api/pets', action.payload );
     } catch (error) {
-        console.log('Error posting owner into database', error);
+        console.log('Error posting pet into database', error);
     }
 }
 
