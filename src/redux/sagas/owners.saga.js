@@ -14,7 +14,7 @@ function* ownersApi(action) {
 function* addOwnersApi(action) {
     try {
         console.log( 'in addOwnersApi');
-        const response = yield axios.post(`/api/owners/?${action.payload}`);
+        const response = yield axios.post( '/api/owners/', action.payload );
         // yield put({type: 'SET_OWNERS', payload: response.data})
     } catch (error) {
         console.log('Error posting owner into database', error);

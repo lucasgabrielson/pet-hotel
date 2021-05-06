@@ -69,7 +69,7 @@ const Owners = () => {
             <div>
                 <Toolbar>
                     <div className ={classes.inputContainer}>
-                        <TextField onChange={e => setName(e.target.value)} />
+                        <TextField onChange={e => setName({ name: e.target.value })} />
                         <AddCircleOutlineIcon onClick={() => handleClick()}/>
                     </div>
                 </Toolbar>
