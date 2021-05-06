@@ -65,6 +65,8 @@ const Owners = () => {
 
     }
 
+    const owners = useSelector( store => store.owners) 
+
     const [search, setSearch] = useState('');
     return (
         <>
@@ -79,6 +81,7 @@ const Owners = () => {
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid rows={rows} columns={columns} pageSize={5}  />
             </div>
+            {owners[0] !== undefined && JSON.stringify(owners)}
         </>
     )
 }

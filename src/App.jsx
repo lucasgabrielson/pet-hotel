@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import {Route, HashRouter, Link, Redirect} from 'react-router-dom';
 import PetAdd from './PetAdd';
+import Owners from './Owners';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
               exact
               path="/owners"
             >
+          <Owners />
         </Route>
         <Route
               exact
