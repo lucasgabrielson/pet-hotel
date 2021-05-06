@@ -67,7 +67,7 @@ export default function OwnerSelect(props) {
           </MenuItem>
             {owners.map(owner => {
             return (
-            <MenuItem value={owner.name}>{owner.name}</MenuItem>
+            <MenuItem value={owner.id}>{owner.name}</MenuItem>
               )
              })}
         </Select>

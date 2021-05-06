@@ -32,7 +32,7 @@ def add_pet():
         cursor = connection.cursor(cursor_factory=RealDictCursor)
         print(pet)
         insertQuery = "INSERT INTO pets (owner_id, name, breed, color, checkin_status) VALUES (%s, %s, %s, %s, %s)"
-        cursor.execute(insertQuery, (owner["id"], pet["name"], pet["breed"], pet["color"], pet["checkInStatus"]))
+        cursor.execute(insertQuery, (owner["id"], pet["name"], pet["color"], pet["breed"], pet["checkInStatus"]))
         connection.commit()
         count = cursor.rowcount
         print(count, "pet inserted")
