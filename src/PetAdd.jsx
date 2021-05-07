@@ -53,7 +53,7 @@ export default function PetAdd() {
 
   const removePet = (pet) => {
     console.log('in removePet:', pet.id )
-    // dispatch({type: 'DELETE_PET', payload: pet.id })
+    dispatch( {type: 'DELETE_PET', payload: { id: pet.id }} )
   }
 
   const updateStatus = (pet) => {

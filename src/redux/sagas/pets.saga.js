@@ -21,7 +21,6 @@ function* addPetApi(action) {
         console.log('Error posting pet into database', error);
     }
 }
-
 function* updatePetApi(action) {
     try {
         console.log( 'in updatePetApi');
@@ -32,12 +31,23 @@ function* updatePetApi(action) {
     }
 }
 
+function* deletePetsApi(action) {
+    try {
+        console.log( 'in deletePetsApi');
+        const response = yield axios.delete('/api/pets', {data: action.payload} );
+        yield put({type: 'GET_PETS'})
+    } catch (error) {
+        console.log('Error posting pet into database', error);
+    }
+}
+
 
 
 function* petsApiSaga() {
     yield takeLatest('ADD_PET', addPetApi);
-    yield takeLatest('GET_PETS', petsApi);
-    yield takeLatest('UPDATE_PETSTATUS', updatePetApi)
+    yield takeLatest('GET_PETS', petsApi );
+    yield takeLatest('DELETE_PET', deletePetsApi);
+    yield takeLatest('UPDATE_PETSTATUS', updatePetsApi);
 }
 
 export default petsApiSaga;
