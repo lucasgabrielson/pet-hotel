@@ -18,7 +18,7 @@ connection = psycopg2.connect(
 def list_pets():
     print("in /api/pets GET")
     cursor = connection.cursor(cursor_factory=RealDictCursor)
-    postgreSQL_select_Query = "SELECT pets.name, pets.breed, pets.color, pets.checkin_status, owners.name AS owner_name, pets.owner_id, pets.id FROM pets JOIN owners on owners.id = pets.owner_id;"
+    postgreSQL_select_Query = "SELECT pets.name, pets.breed, pets.color, pets.checkin_status, owners.name AS owner_name, pets.owner_id, pets.id FROM pets JOIN owners on owners.id = pets.owner_id ORDER BY pets.id ASC;"
 
     cursor.execute(postgreSQL_select_Query)
     pets = cursor.fetchall()
@@ -52,7 +52,7 @@ def update_pets():
     try:
         cursor = connection.cursor(cursor_factory=RealDictCursor)
         insertQuery = "UPDATE pets SET checkin_status = (%s) WHERE id = (%s)"
-        cursor.execute(insertQuery, (checkin, id ))
+        cursor.execute(insertQuery, (not checkin, id ))
         connection.commit()
         count = cursor.rowcount
         print(count, "pet updated")

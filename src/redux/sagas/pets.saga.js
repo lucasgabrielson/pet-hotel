@@ -21,6 +21,15 @@ function* addPetApi(action) {
         console.log('Error posting pet into database', error);
     }
 }
+function* updatePetApi(action) {
+    try {
+        console.log( 'in updatePetApi');
+        const response = yield axios.put('/api/pets', action.payload )
+        yield put({type: 'GET_PETS'})
+    } catch(err) {
+        console.log('Error updating pets', err )
+    }
+}
 
 function* deletePetsApi(action) {
     try {
@@ -31,17 +40,6 @@ function* deletePetsApi(action) {
         console.log('Error posting pet into database', error);
     }
 }
-
-function* updatePetsApi(action) {
-    try {
-        console.log( 'in updatePetsApi');
-        const response = yield axios.put('/api/pets', action.payload );
-        yield put({type: 'GET_PETS'})
-    } catch (error) {
-        console.log('Error posting pet into database', error);
-    }
-}
-
 
 
 

@@ -58,7 +58,7 @@ export default function PetAdd() {
 
   const updateStatus = (pet) => {
     console.log('in updateStatus:', pet.id )
-    dispatch({type: 'UPDATE_PETSTATUS', payload: { id: pet.id, checkin: !pet.checkin_status }})
+    dispatch({type: 'UPDATE_PETSTATUS', payload:{ id: pet.id, checkin: pet.checkin_status }})
   }
 
   //object to be sent to db on post 
@@ -86,7 +86,6 @@ export default function PetAdd() {
   return (
       <>
     <h2>Pet Add</h2>
-    {JSON.stringify({pets})}
     <form className={classes.root} noValidate autoComplete="off">
         <Input placeholder="Pet Name" onChange={newName} inputProps={{ 'aria-label': 'description' }} />
         <Input placeholder="Pet Color" onChange={newColor} inputProps={{ 'aria-label': 'description' }} />
