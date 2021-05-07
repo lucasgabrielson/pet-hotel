@@ -24,7 +24,7 @@ function* addOwnersApi(action) {
 function* deleteOwnersApi(action) {
     try {
         console.log( 'in deleteOwnersApi');
-        const response = yield axios.delete( '/api/owners/', action.payload );
+        const response = yield axios.delete( '/api/owners/', {data: action.payload} );
         yield put({type: 'GET_OWNERS'})
     } catch (error) {
         console.log('Error deleting owner from database', error);
