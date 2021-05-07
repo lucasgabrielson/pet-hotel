@@ -18,19 +18,6 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 200, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
-
 export default function PetAdd() {
 
   const pets = useSelector( (store)  => {
@@ -73,6 +60,18 @@ export default function PetAdd() {
     checkin_status: false,
   }
 
+  let display;
+
+  const status = (pet) => {
+    if(pet.checkin_status === false ){
+      display = <TableCell align="right">Check-In</TableCell>
+    } 
+    else{
+      display = <TableCell align="right">Check-Out</TableCell>
+    } 
+    return display
+  }
+
 
   return (
       <>
@@ -91,23 +90,22 @@ export default function PetAdd() {
         <TableHead>
           <TableRow>
             <TableCell>Owner</TableCell>
-            <TableCell align="right">Pet</TableCell>
-            <TableCell align="right">Breed</TableCell>
-            <TableCell align="right">Color</TableCell>
-            <TableCell align="right">Checked-In</TableCell>
-            <TableCell align="right">Actions</TableCell>
+            <TableCell align="center">Pet</TableCell>
+            <TableCell align="center">Breed</TableCell>
+            <TableCell align="center">Color</TableCell>
+            <TableCell align="center">Checked-In</TableCell>
+            <TableCell align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+          {pets.map((pet) => (
+            <TableRow key={pet.id}>
+              <TableCell component="th" scope="row">{pet.owner_name}</TableCell>
+              <TableCell align="center">{pet.name}</TableCell>
+              <TableCell align="center">{pet.breed}</TableCell>
+              <TableCell align="center">{pet.color}</TableCell>
+              {status(pet)}
+              <TableCell align="right"><button>Delete</button><button>Update Status</button></TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -117,36 +115,3 @@ export default function PetAdd() {
   );
 }
 
-
-
-
-
-// function PetAdd() {
-//     return(
-//         <>
-//             <h2>Pet Add</h2>
-//             <form action="">
-//                 <input type="text" placeholder="Pet Name"/>
-//                 <input type="text" placeholder="Pet Color"/>
-//                 <input type="text" placeholder="Pet Breed"/>
-//                 <select name="" id="">
-//                     <option value="">owner1</option>
-//                     <option value="">owner2</option>
-//                 </select>
-//                 <button>Submit</button>
-//             </form>
-//             <table>
-//                 <th>
-//                     <td>Owner</td>
-//                     <td>Pet</td>
-//                     <td>Breed</td>
-//                     <td>Color</td>
-//                     <td>Checked in</td>
-//                     <td>Actions</td>
-//                 </th>
-//             </table>
-//         </>
-//     )
-// }
-
-// export default PetAdd; 
