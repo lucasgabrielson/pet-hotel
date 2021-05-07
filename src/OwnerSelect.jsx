@@ -48,7 +48,6 @@ export default function OwnerSelect(props) {
 
   return (
     <div>
-      {JSON.stringify(owners)}
       <Button className={classes.button} onClick={handleOpen}>
       </Button>
       <FormControl className={classes.formControl}>
