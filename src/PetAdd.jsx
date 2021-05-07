@@ -51,6 +51,16 @@ export default function PetAdd() {
     dispatch({type: 'ADD_PET', payload: petToAdd })
   }
 
+  const removePet = (pet) => {
+    console.log('in removePet:', pet.id )
+    // dispatch({type: 'DELETE_PET', payload: pet.id })
+  }
+
+  const updateStatus = (pet) => {
+    console.log('in updateStatus:', pet.id )
+    //dispatch({type: 'UPDATE_PETSTATUS, payload: pet.id })
+  }
+
   //object to be sent to db on post 
   const petToAdd = {
     owner_id: owner,
@@ -105,7 +115,7 @@ export default function PetAdd() {
               <TableCell align="center">{pet.breed}</TableCell>
               <TableCell align="center">{pet.color}</TableCell>
               {status(pet)}
-              <TableCell align="right"><button>Delete</button><button>Update Status</button></TableCell>
+              <TableCell align="right"><button onClick={()=>removePet(pet)}>Delete</button><button onClick={()=>updateStatus(pet)}>Update Status</button></TableCell>
             </TableRow>
           ))}
         </TableBody>
