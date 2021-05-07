@@ -50,8 +50,8 @@ const Owners = () => {
         { field: 'name', headerName: 'First name', width: 250 },
         { field: 'count', headerName: 'Number of Pets', type:'number', width: 250 },
         {
-            field: "button",
-            headerName: "Action",
+            field: "deleteButton",
+            headerName: "Delete",
             disableClickEventBubbling: true,
             renderCell: (params) => {
             const onClick = () => {
@@ -60,8 +60,23 @@ const Owners = () => {
             };
             return <Button onClick={onClick}>Delete</Button>;
             },
+        
             width: 260
-        }
+        },
+        {
+            field: "editButton",
+            headerName: "Edit",
+            disableClickEventBubbling: true,
+            renderCell: (params) => {
+            const onClick = () => {
+                console.log('edit', params.row);
+            };
+            return <Button onClick={onClick}>Edit</Button>;
+            },
+        
+            width: 260
+        },
+        
     ];
 
     return (
