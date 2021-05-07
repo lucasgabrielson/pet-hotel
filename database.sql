@@ -6,9 +6,9 @@ CREATE TABLE owners (
 CREATE TABLE pets (
 	"id" SERIAL PRIMARY KEY,
 	"owner_id" INT NOT NULL,
-	FOREIGN KEY (owner_id) REFERENCES owners (id),
+	FOREIGN KEY (owner_id) REFERENCES owners(id) ON DELETE CASCADE,
 	"name" VARCHAR (80),
-	"color" VARCHAR (80),
 	"breed" VARCHAR (80),
+	"color" VARCHAR (80),
 	"checkin_status" BOOLEAN
 );
