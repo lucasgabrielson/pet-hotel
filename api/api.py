@@ -18,7 +18,8 @@ connection = psycopg2.connect(
 def list_pets():
     print("in /api/pets GET")
     cursor = connection.cursor(cursor_factory=RealDictCursor)
-    postgreSQL_select_Query = "SELECT pets.id, pets.name, pets.breed, pets.color, pets.checkin_status, owners.name AS owner_name, pets.owner_id FROM pets JOIN owners on owners.id = pets.owner_id;"
+    postgreSQL_select_Query = "SELECT pets.name, pets.breed, pets.color, pets.checkin_status, owners.name AS owner_name, pets.owner_id, pets.id FROM pets JOIN owners on owners.id = pets.owner_id;"
+
     cursor.execute(postgreSQL_select_Query)
     pets = cursor.fetchall()
     return jsonify(pets)

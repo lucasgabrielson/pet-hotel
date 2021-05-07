@@ -10,5 +10,5 @@ CREATE TABLE pets (
 	"name" VARCHAR (80),
 	"breed" VARCHAR (80),
 	"color" VARCHAR (80),
-	"checkin_status" BOOLEAN
+	"checkin_status" BOOLEAN DEFAULT false
 );
