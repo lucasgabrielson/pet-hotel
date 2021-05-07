@@ -16,6 +16,7 @@ connection = psycopg2.connect(
 # PETS ROUTES
 @app.route('/api/pets', methods=['GET'])
 def list_pets():
+    print("in /api/pets GET")
     cursor = connection.cursor(cursor_factory=RealDictCursor)
     postgreSQL_select_Query = "SELECT * FROM pets"
     cursor.execute(postgreSQL_select_Query)
@@ -24,7 +25,7 @@ def list_pets():
 
 @app.route("/api/pets", methods=["POST"])
 def add_pet():
-    print("this is the request:", request.json)
+    print("in /api/pets POST with request:", request.json)
     print("as a form", request.form)
     owner = request.json["owner_id"]
     try:
@@ -42,7 +43,32 @@ def add_pet():
         if(cursor):
             cursor.close()
 
-# USERS ROUTES
+@app.route('/api/pets', methods=['PUT'])
+def update_pets():
+    print("in /api/pets PUT with request:", request.json)
+    pet = request.json["pet"]
+    if (pet["checkInStatus"] == true):
+        pet["checkInStatus"] = false
+    else:
+        pet["checkInStatus"] = true
+    try:
+        cursor = connection.cursor(cursor_factory=RealDictCursor)
+        print(pet)
+        insertQuery = "UPDATE pets SET checkin_status =" + pet["checkInStatus"] + "WHERE id = (%s)"
+        cursor.execute(insertQuery, (pet["id"],))
+        connection.commit()
+        count = cursor.rowcount
+        print(count, "pet updated")
+        return 201
+    except (Exception, psycopg2.Error) as error:
+        print("Failed to update pet", error)
+        return 500
+    finally:
+        if(cursor):
+            cursor.close()
+
+
+# OWNERS ROUTES
 @app.route('/api/owners', methods=['GET'])
 def list_owners():
     cursor = connection.cursor(cursor_factory=RealDictCursor)
@@ -115,3 +141,4 @@ def delete_owner():
         # clean up our cursor
         if(cursor):
             cursor.close()
+
