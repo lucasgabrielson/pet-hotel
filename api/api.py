@@ -47,24 +47,51 @@ def add_pet():
 @app.route('/api/pets', methods=['PUT'])
 def update_pets():
     print("in /api/pets PUT with request:", request.json)
-    pet = request.json["pet"]
-    if (pet["checkInStatus"] == true):
-        pet["checkInStatus"] = false
-    else:
-        pet["checkInStatus"] = true
+    id = request.json['id']
+    checkin = request.json['checkin']
     try:
         cursor = connection.cursor(cursor_factory=RealDictCursor)
-        print(pet)
-        insertQuery = "UPDATE pets SET checkin_status =" + pet["checkInStatus"] + "WHERE id = (%s)"
-        cursor.execute(insertQuery, (pet["id"],))
+        insertQuery = "UPDATE pets SET checkin_status = (%s) WHERE id = (%s)"
+        cursor.execute(insertQuery, (checkin, id ))
         connection.commit()
         count = cursor.rowcount
         print(count, "pet updated")
-        return 201
+        return '201'
     except (Exception, psycopg2.Error) as error:
         print("Failed to update pet", error)
-        return 500
+        return '500'
     finally:
+        if(cursor):
+            cursor.close()
+
+@app.route( '/api/pets', methods=['DELETE'] )
+def delete_pet():
+    print('request.json is a dict!', request.json)
+    print('if you\'re using multipart/form data, use request.form instead!', request.form)
+    print(request.json)
+    id = request.json['id']
+    try:
+        # Avoid getting arrays of arrays!
+        cursor = connection.cursor(cursor_factory=RealDictCursor)
+        print( 'id:', id)
+        insertQuery = "DELETE FROM pets WHERE id = ( %s )"
+        # if only only one param, still needs to be a tuple --> cursor.execute(insertQuery, (title,)) <-- comma matters!
+        cursor.execute(insertQuery, ( id, ))
+        # really for sure commit the query
+        connection.commit()
+        count = cursor.rowcount
+        print(count, "Pet deleted")
+        # respond nicely
+        result = {'status': 'DELETED'}
+        return jsonify(result), 200
+    except (Exception, psycopg2.Error) as error:
+        # there was a problem
+        print("Failed to delete pet", error)
+        # respond with error
+        result = {'status': 'ERROR'}
+        return jsonify(result), 500
+    finally:
+        # clean up our cursor
         if(cursor):
             cursor.close()
 
