@@ -3,11 +3,11 @@
 - [X] Setup server
 - [X] Create Database and Add database.sql to Project
 - [/] Create a home page
-- [] Register New Owner
-- [] Register New Pet
+- [X] Register New Owner
+- [X] Register New Pet
 - [] Display All Pets
-- [] Delete Pet
-- [] Pet Check In Default To 'IN'
+- [X] Delete Pet
+- [X] Pet Check In Default To 'IN'
 - [] Check In a Pet 
 - [] Check Out a Pet
 - [] Edit owner information
