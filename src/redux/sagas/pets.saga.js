@@ -21,7 +21,7 @@ function* addPetApi(action) {
         console.log('Error posting pet into database', error);
     }
 }
-function* updatePetApi(action) {
+function* updatePetsApi(action) {
     try {
         console.log( 'in updatePetApi');
         const response = yield axios.put('/api/pets', action.payload )
