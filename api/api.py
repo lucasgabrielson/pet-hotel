@@ -18,7 +18,7 @@ connection = psycopg2.connect(
 def list_pets():
     print("in /api/pets GET")
     cursor = connection.cursor(cursor_factory=RealDictCursor)
-    postgreSQL_select_Query = "SELECT pets.name, pets.breed, pets.color, pets.checkin_status, owners.name AS owner_name, pets.owner_id, pets.id FROM pets JOIN owners on owners.id = pets.owner_id;"
+    postgreSQL_select_Query = "SELECT pets.name, pets.breed, pets.color, pets.checkin_status, owners.name AS owner_name, pets.owner_id, pets.id FROM pets JOIN owners on owners.id = pets.owner_id ORDER BY pets.id ASC;"
 
     cursor.execute(postgreSQL_select_Query)
     pets = cursor.fetchall()
@@ -47,23 +47,19 @@ def add_pet():
 @app.route('/api/pets', methods=['PUT'])
 def update_pets():
     print("in /api/pets PUT with request:", request.json)
-    pet = request.json["pet"]
-    if (pet["checkInStatus"] == true):
-        pet["checkInStatus"] = false
-    else:
-        pet["checkInStatus"] = true
+    id = request.json['id']
+    checkin = request.json['checkin']
     try:
         cursor = connection.cursor(cursor_factory=RealDictCursor)
-        print(pet)
-        insertQuery = "UPDATE pets SET checkin_status =" + pet["checkInStatus"] + "WHERE id = (%s)"
-        cursor.execute(insertQuery, (pet["id"],))
+        insertQuery = "UPDATE pets SET checkin_status = (%s) WHERE id = (%s)"
+        cursor.execute(insertQuery, (not checkin, id ))
         connection.commit()
         count = cursor.rowcount
         print(count, "pet updated")
-        return 201
+        return '201'
     except (Exception, psycopg2.Error) as error:
         print("Failed to update pet", error)
-        return 500
+        return '500'
     finally:
         if(cursor):
             cursor.close()

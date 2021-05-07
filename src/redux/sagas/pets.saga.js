@@ -22,11 +22,22 @@ function* addPetApi(action) {
     }
 }
 
+function* updatePetApi(action) {
+    try {
+        console.log( 'in updatePetApi');
+        const response = yield axios.put('/api/pets', action.payload )
+        yield put({type: 'GET_PETS'})
+    } catch(err) {
+        console.log('Error updating pets', err )
+    }
+}
+
 
 
 function* petsApiSaga() {
     yield takeLatest('ADD_PET', addPetApi);
-    yield takeLatest('GET_PETS', petsApi )
+    yield takeLatest('GET_PETS', petsApi);
+    yield takeLatest('UPDATE_PETSTATUS', updatePetApi)
 }
 
 export default petsApiSaga;
