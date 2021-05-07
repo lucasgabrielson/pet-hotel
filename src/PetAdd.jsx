@@ -53,12 +53,12 @@ export default function PetAdd() {
 
   const removePet = (pet) => {
     console.log('in removePet:', pet.id )
-    // dispatch({type: 'DELETE_PET', payload: pet.id })
+    dispatch( {type: 'DELETE_PET', payload: { id: pet.id }} )
   }
 
   const updateStatus = (pet) => {
     console.log('in updateStatus:', pet.id )
-    //dispatch({type: 'UPDATE_PETSTATUS, payload: pet.id })
+    dispatch({type: 'UPDATE_PETSTATUS', payload: { id: pet.id, checkin: !pet.checkin_status }})
   }
 
   //object to be sent to db on post 
